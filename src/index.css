@@ -1,0 +1,88 @@
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f0f0;
+  }
+  
+  a {
+    text-decoration: none;
+    color: #333;
+  }
+  
+  /* Header */
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #3D7DCA; /* Pokéball blue */
+    color: white;
+    padding: 1rem 2rem;
+  }
+  
+  header h1 {
+    font-size: 1.5rem;
+  }
+  
+  header nav {
+    display: flex;
+  }
+  
+  header nav a {
+    margin-left: 1rem;
+  }
+  
+  header nav a:hover {
+    color: #FFCB05; /* Pokémon yellow */
+  }
+  
+  /* Main */
+  main {
+    padding: 2rem;
+  }
+  
+  /* Footer */
+  footer {
+    background-color: #3D7DCA; /* Pokéball blue */
+    color: white;
+    padding: 1rem 2rem;
+    text-align: center;
+  }
+  
+  /* Product Card */
+  .product-card {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 1rem;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .product-card img {
+    width: 100%;
+    height: auto;
+  }
+  
+  .product-card h3 {
+    margin: 1rem 0;
+  }
+  
+  .product-card button {
+    background-color: #FFCB05; /* Pokémon yellow */
+    color: #333;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  
+  .product-card button:hover {
+    background-color: #F0E442; /* Lighter Pokémon yellow */
+  }

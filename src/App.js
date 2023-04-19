@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Shop from './pages/Shop';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
+import MyLibrary from './pages/MyLibrary.js';
 
 function App() {
   return (
@@ -14,10 +15,11 @@ function App() {
         <Header />
         <main>
           <Routes>
-            <Route path="/" exact component={Home} />
-            <Route path="/shop" component={Shop} />
-            <Route path="/cart" component={Cart} />
-            <Route path="/checkout" component={Checkout} />
+            <Route path="/" element={<Home />} />
+            <Route path="/shop" element={<Shop />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/my-library" element={<MyLibrary />} />
           </Routes>
         </main>
         <Footer />

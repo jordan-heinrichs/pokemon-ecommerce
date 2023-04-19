@@ -36,7 +36,7 @@ const Shop = () => {
         />
         <button onClick={handleSubmit}>Search</button>
       </div>
-      <div className="product-grid">
+      <div className={styles['product-grid']}>
         {products.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}

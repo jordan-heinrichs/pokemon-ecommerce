@@ -1,0 +1,33 @@
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem 0;
+  }
+  
+  .button {
+    background-color: #f8d3b3;
+    border: none;
+    border-radius: 5px;
+    color: #333;
+    cursor: pointer;
+    font-size: 1rem;
+    margin: 0 0.5rem;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s;
+  }
+  
+  .button:hover {
+    background-color: #f3b07b;
+  }
+  
+  .button:disabled {
+    background-color: #f0e6de;
+    cursor: not-allowed;
+  }
+  
+  .pageInfo {
+    font-size: 1rem;
+    margin: 0 1rem;
+  }
+  

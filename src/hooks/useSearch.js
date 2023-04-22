@@ -1,27 +1,25 @@
 import { useState, useEffect } from 'react';
 import { getPokemonCards } from '../api/pokemonTCG';
 
-const useSearch = (resultsPerPage) => {
-  const [search, setSearch] = useState('');
-  const [results, setResults] = useState([]);
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+const useSearch = (searchQuery, page) => {
+  const [data, setData] = useState({ cards: [], totalPages: 1 });
 
   useEffect(() => {
-    const fetchPokemonCards = async () => {
-      try {
-        const response = await getPokemonCards(search, page, resultsPerPage);
-        setResults(response.data);
-        setTotalPages(Math.ceil(response.total / resultsPerPage));
-      } catch (error) {
-        console.error('Failed to fetch Pokémon cards:', error);
+    const fetchCards = async () => {
+      if (searchQuery) {
+        const response = await getPokemonCards(searchQuery, page);
+        setData(response);
+      } else {
+        setData({ cards: [], totalPages: 1 });
       }
     };
 
-    fetchPokemonCards();
-  }, [search, page, resultsPerPage]);
+    fetchCards();
+  }, [searchQuery, page]);
 
-  return { search, setSearch, results, totalPages, setPage };
+  const { cards = [], totalPages } = data;
+
+  return { cards, totalPages };
 };
 
 export default useSearch;

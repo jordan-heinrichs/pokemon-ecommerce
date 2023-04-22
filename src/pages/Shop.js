@@ -1,36 +1,49 @@
-import React from 'react';
+// src/pages/Shop.js
+import React, { useState } from 'react';
 import useSearch from '../hooks/useSearch';
-import ProductCard from './ProductCard';
-import Pagination from './Pagination';
+import ProductCard from '../components/shared/ProductCard';
+import Pagination from '../components/shared/Pagination';
 import styles from './Shop.module.css';
-const Shop = () => {
-  const { search, setSearch, results, totalPages, setPage } = useSearch(10);
 
-  const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
-      setPage(1);
-    }
+const Shop = () => {
+  const [search, setSearch] = useState('');
+  const [submittedSearch, setSubmittedSearch] = useState('');
+  const [page, setPage] = useState(1);
+  const { cards, totalPages } = useSearch(submittedSearch, page);
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    setSubmittedSearch(search);
+    setPage(1);
   };
 
   return (
-    <div>
-      <h1>Shop</h1>
-      <div className={styles['search-container']}>
+    <div className={styles.shop}>
+      <form onSubmit={handleSearchSubmit}>
         <input
+          className={styles.searchInput}
           type="text"
-          placeholder="Search for Pokémon cards"
+          placeholder="Search Pokémon cards"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          onKeyPress={handleKeyPress}
         />
-        <button onClick={() => setPage(1)}>Search</button>
-      </div>
+      </form>
+
       <div className={styles.grid}>
-        {results.map((card) => (
-          <ProductCard key={card.id} product={card} />
+        {cards.map((card) => (
+          <ProductCard key={card.id} card={card} />
         ))}
       </div>
-      <Pagination totalPages={totalPages} currentPageSetter={setPage} />
+
+      {submittedSearch && (
+        <>
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+          />
+        </>
+      )}
     </div>
   );
 };

@@ -1,32 +1,30 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { addCard } from '../../reducers/library';
-import styles from './ProductCard.module.css';
-const ProductCard = ({ product }) => {
+import { addToCart, addToLibrary } from '../../store/actions';
+import './ProductCard.module.css';
+
+const ProductCard = ({ card }) => {
   const dispatch = useDispatch();
 
-  const addToLibrary = () => {
-    dispatch(addCard(product));
+  const handleAddToCart = () => {
+    dispatch(addToCart(card));
+  };
+
+  const handleAddToLibrary = () => {
+    dispatch(addToLibrary(card));
   };
 
   return (
-    <div className={styles['product-card']}>
-      <img src={product.images.small} alt={product.name} />
-      <h3>{product.name}</h3>
-      <p>Set: {product.set.name}</p>
-      <div className={styles.buttons}>
-        <button className={styles['add-to-cart']}>Add to Cart</button>
-        <button className={styles['add-to-library']} onClick={addToLibrary}>
-          Add to My Library
-        </button>
+    <div className="product-card">
+      <img src={card.images.small} alt={card.name} />
+      <h4>{card.name}</h4>
+      <p>{card.set.name}</p>
+      <div className="actions">
+        <button onClick={handleAddToCart}>Add to Cart</button>
+        <button onClick={handleAddToLibrary}>Add to My Library</button>
       </div>
     </div>
   );
 };
-
-ProductCard.propTypes = {
-  product: PropTypes.object.isRequired,
-}
 
 export default ProductCard;

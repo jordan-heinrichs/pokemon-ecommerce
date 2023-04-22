@@ -31,7 +31,7 @@ const Shop = () => {
 
       <div className={styles.grid}>
         {cards.map((card) => (
-          <ProductCard key={card.id} card={card} />
+          <ProductCard key={card.id} card={card} className={styles.productCard} />
         ))}
       </div>
 

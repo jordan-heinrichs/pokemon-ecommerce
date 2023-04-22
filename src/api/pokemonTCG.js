@@ -1,27 +1,32 @@
-// src/api/pokemonTCG.js
 import axios from 'axios';
 
 const API_BASE_URL = 'https://api.pokemontcg.io/v2/cards';
 
-export const getPokemonCards = async (search, page, pageSize) => {
+export const getPokemonCards = async (searchQuery, page = 1) => {
   try {
     const response = await axios.get(API_BASE_URL, {
       params: {
-        q: search,
-        page,
-        pageSize,
+        q: `name:${searchQuery}*`,
+        page: page,
+        pageSize: 10,
+      },
+      headers: {
+        'X-Api-Key': process.env.REACT_APP_POKEMON_TCG_API_KEY,
       },
     });
 
+    const { data } = response;
+    const totalPages = Math.ceil(data.totalCount / 10);
+
     return {
-      data: response.data.data,
-      total: response.data.total,
+      cards: data.data,
+      totalPages: totalPages,
     };
   } catch (error) {
-    console.error('Failed to fetch Pokémon cards:', error);
+    console.error('Error fetching Pokémon cards:', error);
     return {
-      data: [],
-      total: 0,
+      cards: [],
+      totalPages: 1,
     };
   }
 };

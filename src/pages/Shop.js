@@ -1,89 +1,38 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import ProductCard from '../components/shared/ProductCard';
-import productCardStyles from '../components/shared/ProductCard.module.css';
-import shopStyles from './Shop.module.css';
-
+import React from 'react';
+import useSearch from '../hooks/useSearch';
+import ProductCard from './ProductCard';
+import Pagination from './Pagination';
+import styles from './Shop.module.css';
 const Shop = () => {
-    const [searchText, setSearchText] = useState('');
-    const [products, setProducts] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(0);
-    const [searched, setSearched] = useState(false);
-
-  const handleChange = (e) => {
-    setSearchText(e.target.value);
-  };
-  
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      handleSubmit(currentPage - 1);
-    }
-  };
-  
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      handleSubmit(currentPage + 1);
-    }
-  };
-
-  const handleSubmit = async (page = 1) => {
-    try {
-      const response = await axios.get(
-        `https://api.pokemontcg.io/v2/cards?q=name:${searchText}&page=${page}&pageSize=10`
-      );
-      setProducts(response.data.data);
-      setCurrentPage(page);
-      setTotalPages(Math.ceil(response.data.totalCount / 10));
-      setSearched(true); // Add this line
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
+  const { search, setSearch, results, totalPages, setPage } = useSearch(10);
 
   const handleKeyPress = (event) => {
-    if (event.key == 'Enter') {
-      searchPokemonCards();
+    if (event.key === 'Enter') {
+      setPage(1);
     }
-  }
+  };
 
   return (
     <div>
-      <h2>Shop</h2>
-      <div className="search-container">
+      <h1>Shop</h1>
+      <div className={styles['search-container']}>
         <input
           type="text"
-          placeholder="Search for Pokémon"
-          value={searchText}
-          onChange={handleChange}
+          placeholder="Search for Pokémon cards"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
           onKeyPress={handleKeyPress}
         />
-        <button onClick={searchPokemonCards}>Search</button>
+        <button onClick={() => setPage(1)}>Search</button>
       </div>
-      {searched && (
-        <>
-          <div className={shopStyles.pagination}>
-            <button onClick={handlePreviousPage}>&lt; Previous</button>
-            <span>
-              Page {currentPage} of {totalPages}
-            </span>
-            <button onClick={handleNextPage}>Next &gt;</button>
-          </div>
-          <div className={productCardStyles['product-grid']}>
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-          <div className={shopStyles.pagination}>
-            <button onClick={handlePreviousPage}>&lt; Previous</button>
-            <span>
-              Page {currentPage} of {totalPages}
-            </span>
-            <button onClick={handleNextPage}>Next &gt;</button>
-          </div>
-        </>
-      )}
+      <div className={styles.grid}>
+        {results.map((card) => (
+          <ProductCard key={card.id} product={card} />
+        ))}
+      </div>
+      <Pagination totalPages={totalPages} currentPageSetter={setPage} />
     </div>
   );
 };
+
 export default Shop;
